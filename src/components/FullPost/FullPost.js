@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import './FullPost.css';
+import Spinner2 from '../../components/Spinner/Spinner2';
 
 class FullPost extends Component {
     state = {
-        loadedPost: null
+        loadedPost: null,
+        mounted: false
     }
 
     componentDidUpdate() {
@@ -19,6 +21,10 @@ class FullPost extends Component {
         }
     }
 
+    componentDidMount() {
+        this.mounted = true;
+    }
+
     deletePostHandler = () => {
         axios.delete('/posts/' + this.props.id)
             .then(response => {
@@ -27,11 +33,14 @@ class FullPost extends Component {
     }
 
     render() {
-        let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
-        if (this.props.id) {
-            post = <p style={{ textAlign: 'center' }}>Loading...</p>;
+        let post = '';
+        if (!this.mounted) {
+            post = <p style={{ textAlign: 'center' }}><Spinner2 />Loading...</p>;
+        } else {
+            post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
         }
-        if (this.state.loadedPost) {
+
+        if (this.state.loadedPost)
             post = (
                 <div className="FullPost">
                     <h1>{this.state.loadedPost.title}</h1>
@@ -44,7 +53,7 @@ class FullPost extends Component {
                 </div>
 
             );
-        }
+
         return post;
     }
 }
