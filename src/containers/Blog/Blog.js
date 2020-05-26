@@ -4,7 +4,7 @@ import axiosInstance from '../../axios';
 import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
 import NewPost from '../../components/NewPost/NewPost';
-import './Blog.module.css';
+import classes from './Blog.module.css';
 import Spinner from '../../components/Spinner/Spinner';
 
 class Blog extends Component {
@@ -56,7 +56,7 @@ class Blog extends Component {
         }
 
         return (
-            <div>
+            <div className={classes.Blog}>
                 <header>
                     <nav>
                         <ul>
@@ -65,7 +65,7 @@ class Blog extends Component {
                         </ul>
                     </nav>
                 </header>
-                <section className="Posts">
+                <section className={classes.Posts}>
                     {posts}
                 </section>
                 <section>
