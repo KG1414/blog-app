@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import Post from '../../../components/Post/Post';
 import axiosInstance from '../../../axios';
-import Spinner from '../../../components/Spinner/Spinner';
+import { Route } from 'react-router-dom';
+
+import Post from '../../../components/Post/Post';
 import classes from './Posts.module.css';
-// import { Link } from 'react-router-dom';
+import Spinner from '../../../components/Spinner/Spinner';
+import FullPost from '../FullPost/FullPost';
 
 class Posts extends Component {
     state = {
@@ -37,7 +39,7 @@ class Posts extends Component {
 
     postClickedHandler = (id) => {
         //this.props.history.push({ pathname: '/' + id });
-        this.props.history.push('/' + id);
+        this.props.history.push('/posts/' + id);
     }
 
     render() {
@@ -59,9 +61,13 @@ class Posts extends Component {
             posts = <p style={{ textAlign: 'center' }}>Something went wrong!</p>;
         }
         return (
-            <section className={classes.Posts}>
-                {posts}
-            </section>
+            <div>
+                <section className={classes.Posts}>
+                    {posts}
+                </section>
+                <Route path={this.props.match.url + '/:id'} exact component={FullPost} />
+                {/*    : signifies a dynamic variable    */}
+            </div>
         );
     }
 }

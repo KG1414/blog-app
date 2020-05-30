@@ -12,9 +12,18 @@ class FullPost extends Component {
 
     componentDidMount() {
         console.log(this.props);
+        this.loadData();
+    }
+
+    componentDidUpdate() {
+        this.loadData();
+    }
+
+    loadData() {
+        console.log(this.props);
         this.mounted = true;
         if (this.props.match.params.id) {
-            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
+            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)) {
                 axios.get('https://cors-anywhere.herokuapp.com/https://jsonplaceholder.typicode.com/posts/'
                     + this.props.match.params.id)
                     .then(response => {
@@ -25,19 +34,18 @@ class FullPost extends Component {
     }
 
     deletePostHandler = () => {
-        axios.delete('/posts/' + this.props.id)
+        axios.delete('/posts/' + this.props.match.params.id)
             .then(response => {
                 console.log(response);
             });
     }
 
     render() {
-        let post = '';
-        if (!this.mounted) {
+        let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
+        if (this.props.match.params.id && !this.mounted) {
             post = <Spinner2 style={{ textAlign: 'center' }}>Loading... </Spinner2>;
-        } else {
-            post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
         }
+
 
         if (this.state.loadedPost)
             post = (
